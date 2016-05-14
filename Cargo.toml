@@ -2,5 +2,17 @@
 name = "rurust"
 version = "0.1.0"
 authors = ["Dylan McKay <dylan.mckay@powershop.co.nz>"]
+license = "MIT"
+
+build = "build.rs"
 
 [dependencies]
+libc = "*"
+
+[lib]
+name = "rurust"
+path = "src/lib.rs"
+
+[[bin]]
+name = "repl"
+path = "tools/repl.rs"
