@@ -22,7 +22,7 @@ fn main() {
             break;
         }
 
-        let result = match vm.eval(&line) {
+        match vm.eval(&line) {
             Ok(a) => {
                 println!("=> {}", a);
             },

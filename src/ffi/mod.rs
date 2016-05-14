@@ -2,12 +2,11 @@ pub use self::consts::*;
 pub use self::value::*;
 pub use self::functions::*;
 pub use self::statics::*;
-pub use self::value_type::ruby_value_type;
-pub use self::value_type::ruby_value_type::*;
+pub use self::vt::*;
 pub use self::ty::*;
 
 pub mod value;
-pub mod value_type;
+pub mod vt;
 #[allow(non_upper_case_globals)]
 pub mod consts;
 pub mod statics;

@@ -35,11 +35,11 @@ impl Value
     }
 
     pub fn is_nil(&self)    -> bool { self.0 == ffi::Qnil }
-    pub fn is_string(&self) -> bool { ffi::RB_TYPE_P(self.0, ffi::RUBY_T_STRING) }
-    pub fn is_fixnum(&self) -> bool { ffi::RB_TYPE_P(self.0, ffi::RUBY_T_FIXNUM) }
-    pub fn is_symbol(&self) -> bool { ffi::RB_TYPE_P(self.0, ffi::RUBY_T_SYMBOL) }
-    pub fn is_float(&self)  -> bool { ffi::RB_TYPE_P(self.0, ffi::RUBY_T_FLOAT) }
-    pub fn is_object(&self) -> bool { ffi::RB_TYPE_P(self.0, ffi::RUBY_T_OBJECT) }
+    pub fn is_string(&self) -> bool { ffi::TYPE_P(self.0, ffi::T_STRING) }
+    pub fn is_fixnum(&self) -> bool { ffi::TYPE_P(self.0, ffi::T_FIXNUM) }
+    pub fn is_symbol(&self) -> bool { ffi::TYPE_P(self.0, ffi::T_SYMBOL) }
+    pub fn is_float(&self)  -> bool { ffi::TYPE_P(self.0, ffi::T_FLOAT) }
+    pub fn is_object(&self) -> bool { ffi::TYPE_P(self.0, ffi::T_OBJECT) }
 
     pub fn as_string(&self) -> String {
         if !self.is_string() { panic!("is not a string") }

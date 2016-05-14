@@ -5,7 +5,7 @@ use libc;
 /// Gets the class of a `VALUE`.
 /// This is actually defined in the Ruby library, but it is inline.
 /// This is a port of it.
-pub fn rb_class_of(obj: VALUE) -> VALUE {
+pub unsafe fn rb_class_of(obj: VALUE) -> VALUE {
     if IMMEDIATE_P(obj) {
         if FIXNUM_P(obj) { return rb_cFixnum; }
         if FLONUM_P(obj) { return rb_cFloat; }
@@ -15,31 +15,31 @@ pub fn rb_class_of(obj: VALUE) -> VALUE {
         if obj == Qnil   { return rb_cNilClass; }
         if obj == Qfalse { return rb_cFalseClass; }
     }
-    return unsafe { (*RBasic::from_pointer(obj)).klass };
+    return (*RBasic::from_pointer(obj)).klass;
 }
 
-pub fn RB_TYPE_P(obj: VALUE, ty: ruby_value_type) -> bool {
+pub fn TYPE_P(obj: VALUE, ty: value_type) -> bool {
     match ty {
-        ruby_value_type::RUBY_T_FIXNUM => FIXNUM_P(obj),
-        ruby_value_type::RUBY_T_TRUE => obj == Qtrue,
-        ruby_value_type::RUBY_T_FALSE => obj == Qfalse,
-        ruby_value_type::RUBY_T_NIL => obj == Qnil,
-        ruby_value_type::RUBY_T_UNDEF => obj == Qundef,
-        ruby_value_type::RUBY_T_SYMBOL => SYMBOL_P(obj),
-        ruby_value_type::RUBY_T_FLOAT => RB_FLOAT_TYPE_P(obj),
+        value_type::T_FIXNUM => FIXNUM_P(obj),
+        value_type::T_TRUE => obj == Qtrue,
+        value_type::T_FALSE => obj == Qfalse,
+        value_type::T_NIL => obj == Qnil,
+        value_type::T_UNDEF => obj == Qundef,
+        value_type::T_SYMBOL => SYMBOL_P(obj),
+        value_type::T_FLOAT => FLOAT_TYPE_P(obj),
         _ => !SPECIAL_CONST_P(obj) && BUILTIN_TYPE(obj) == ty
     }
 }
 
-pub fn RB_FLOAT_TYPE_P(obj: VALUE) -> bool {
+pub fn FLOAT_TYPE_P(obj: VALUE) -> bool {
     FLONUM_P(obj) || (!SPECIAL_CONST_P(obj) &&
-                      BUILTIN_TYPE(obj) == RUBY_T_FLOAT)
+                      BUILTIN_TYPE(obj) == T_FLOAT)
 }
 
-pub fn BUILTIN_TYPE(x: VALUE) -> ruby_value_type {
+pub fn BUILTIN_TYPE(x: VALUE) -> value_type {
     unsafe {
         let basic: *const RBasic = mem::transmute(x);
-        let masked = (*basic).flags.0 & (RUBY_T_MASK as libc::size_t);
+        let masked = (*basic).flags.0 & (T_MASK as libc::size_t);
         mem::transmute(masked as u32)
     }
 }
@@ -57,7 +57,7 @@ pub fn FIXNUM_P(f: VALUE) -> bool {
 }
 
 pub fn DYNAMIC_SYM_P(x: VALUE) -> bool {
-    !SPECIAL_CONST_P(x) && BUILTIN_TYPE(x) == RUBY_T_SYMBOL
+    !SPECIAL_CONST_P(x) && BUILTIN_TYPE(x) == T_SYMBOL
 }
 
 pub fn STATIC_SYM_P(x: VALUE) -> bool {
