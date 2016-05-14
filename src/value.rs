@@ -23,8 +23,7 @@ impl Value
     }
 
     pub fn class(&self) -> Value {
-        unimplemented!();
-        // Self::from(unsafe { ffi::rb_class_of(self.0) })
+        Self::from(unsafe { ffi::rb_class_of(self.0) })
     }
 
     pub fn display_string(&self) -> String {

@@ -5,26 +5,18 @@ use libc;
 /// Gets the class of a `VALUE`.
 /// This is actually defined in the Ruby library, but it is inline.
 /// This is a port of it.
-// pub fn rb_class_of(obj: VALUE) -> VALUE {
-//     if RB_IMMEDIATE_P(obj) {
-//         if RB_FIXNUM_P(obj) { return 
-//     }
-// }
-
-// static inline VALUE rb_class_of(VALUE obj)
-// {
-//     if (RB_IMMEDIATE_P(obj)) {
-//         if (RB_FIXNUM_P(obj)) return rb_cFixnum;
-//         if (RB_FLONUM_P(obj)) return rb_cFloat;
-//         if (obj == RUBY_Qtrue)  return rb_cTrueClass;
-//         if (RB_STATIC_SYM_P(obj)) return rb_cSymbol;
-//     }
-//     else if (!RTEST(obj)) {
-//         if (obj == RUBY_Qnil)   return rb_cNilClass;
-//         if (obj == RUBY_Qfalse) return rb_cFalseClass;
-//     }
-//     return RBASIC(obj)->klass;
-// }
+pub fn rb_class_of(obj: VALUE) -> VALUE {
+    if IMMEDIATE_P(obj) {
+        if FIXNUM_P(obj) { return rb_cFixnum; }
+        if FLONUM_P(obj) { return rb_cFloat; }
+        if obj == Qtrue { return rb_cTrueClass; }
+        if STATIC_SYM_P(obj) { return rb_cSymbol; }
+    } else if !RTEST(obj) {
+        if obj == Qnil   { return rb_cNilClass; }
+        if obj == Qfalse { return rb_cFalseClass; }
+    }
+    return unsafe { (*RBasic::from_pointer(obj)).klass };
+}
 
 pub fn RB_TYPE_P(obj: VALUE, ty: ruby_value_type) -> bool {
     match ty {

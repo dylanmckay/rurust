@@ -16,6 +16,7 @@ pub mod functions;
 pub mod ty;
 
 use libc;
+use std;
 
 #[repr(C)]
 #[derive(Copy,Clone,Debug,PartialEq,Eq)]
@@ -25,5 +26,13 @@ pub struct ID(libc::uintptr_t);
 pub struct RBasic {
     flags: VALUE,
     klass: VALUE,
+}
+
+impl RBasic {
+    // Value is actually a pointer to an RBasic structure.
+    pub unsafe fn from_pointer(v: VALUE) -> *const Self {
+        let ptr: *const RBasic = std::mem::transmute(v);
+        ptr
+    }
 }
 
