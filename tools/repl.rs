@@ -22,6 +22,19 @@ fn main() {
             break;
         }
 
-        vm.eval(&line);
+        let result = match vm.eval(&line) {
+            Ok(a) => {
+                println!("=> {}", a);
+            },
+            Err(rurust::ErrorKind::Exception(ref value)) => {
+                let ty = value.class();
+                println!("{}: {}", ty, value);
+                continue;
+            },
+            Err(rurust::ErrorKind::VM(ref message)) => {
+                println!("Internal VM error: {}", message);
+                return;
+            },
+        };
     }
 }

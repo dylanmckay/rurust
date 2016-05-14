@@ -11,6 +11,7 @@ pub struct VM;
 
 static mut VM_EXISTS: bool = false;
 
+#[derive(Debug)]
 pub enum ErrorKind
 {
     /// An internal VM error.
