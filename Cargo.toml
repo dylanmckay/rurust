@@ -9,6 +9,9 @@ build = "build.rs"
 [dependencies]
 libc = "*"
 
+[dev-dependencies]
+stainless = "*"
+
 [lib]
 name = "rurust"
 path = "src/lib.rs"

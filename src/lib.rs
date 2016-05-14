@@ -1,3 +1,6 @@
+#![feature(plugin)]
+#![cfg_attr(test, plugin(stainless))]
+
 pub mod vm;
 pub mod value;
 
