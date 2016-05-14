@@ -44,21 +44,24 @@ pub fn BUILTIN_TYPE(x: VALUE) -> ruby_value_type {
     }
 }
 
-pub fn FLONUM_P(_x: VALUE) -> bool {
-    false
-    //x & FLONUM_MASK == FLONUM_FLAG
+#[cfg(not(mri_use_flonum))]
+pub fn FLONUM_P(_: VALUE) -> bool { false }
+
+#[cfg(mri_use_flonum)]
+pub fn FLONUM_P(x: VALUE) -> bool {
+    x & FLONUM_MASK == FLONUM_FLAG.0
 }
 
 pub fn FIXNUM_P(f: VALUE) -> bool {
     (f & FIXNUM_FLAG) != 0
 }
 
-pub fn DYNAMIC_SYM_P(_x: VALUE) -> bool {
-    false
+pub fn DYNAMIC_SYM_P(x: VALUE) -> bool {
+    !SPECIAL_CONST_P(x) && BUILTIN_TYPE(x) == RUBY_T_SYMBOL
 }
 
-pub fn STATIC_SYM_P(_x: VALUE) -> bool {
-    false
+pub fn STATIC_SYM_P(x: VALUE) -> bool {
+    (x.0 & !((!0 as libc::uintptr_t) << SPECIAL_SHIFT)) == SYMBOL_FLAG.0
 }
 
 pub fn SYMBOL_P(x: VALUE) -> bool {

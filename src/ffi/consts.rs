@@ -1,4 +1,5 @@
 use super::VALUE;
+use libc;
 
 pub const Qfalse: VALUE = VALUE(0x00);
 
@@ -35,3 +36,5 @@ pub const FLONUM_FLAG:    VALUE = VALUE(0x02);
 pub const SYMBOL_FLAG:    VALUE = VALUE(0x0c);
 #[cfg(not(mri_use_flonum))]
 pub const SYMBOL_FLAG:    VALUE = VALUE(0x0e);
+
+pub const SPECIAL_SHIFT: libc::uintptr_t = 8;
