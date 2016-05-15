@@ -4,6 +4,12 @@ version = "0.1.0"
 authors = ["Dylan McKay <dylan.mckay@powershop.co.nz>"]
 license = "MIT"
 
+description = "High level Ruby VM bindings"
+
+repository = "https://github.com/dylanmckay/rurust"
+readme = "README.md"
+keywords = ["ruby", "repl", "interpreter", "plugin"]
+
 [dependencies]
 libc = ">= 0.2.11"
 mri-sys = ">= 0.1.1"
