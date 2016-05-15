@@ -3,6 +3,7 @@
 
 pub mod vm;
 pub mod value;
+pub mod builder;
 
 pub mod util;
 

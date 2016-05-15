@@ -1,5 +1,6 @@
-use util;
 use ffi;
+use builder;
+use util;
 
 use std;
 use libc;
@@ -47,6 +48,11 @@ impl VM
         } else {
             Err(ErrorKind::Exception(self.consume_exception().unwrap()))
         }
+    }
+
+    pub fn class<S>(&mut self, name: S) -> builder::ClassBuilder
+        where S: Into<String> {
+        builder::ClassBuilder::new(name)
     }
 
     pub fn consume_exception(&mut self) -> Option<Value> {

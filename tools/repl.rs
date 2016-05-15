@@ -1,4 +1,5 @@
 extern crate rurust;
+extern crate mri_sys as ffi;
 
 use std::io::Write;
 
@@ -21,6 +22,12 @@ fn main() {
         if line == "exit" || line == "quit" {
             break;
         }
+
+        println!("nil is {:x}", ffi::Qnil.0);
+
+        let a = vm.class("Abc").
+            method("thing", 0 as *const u8, 0).
+            build();
 
         match vm.eval(&line) {
             Ok(a) => {
