@@ -4,11 +4,9 @@ version = "0.1.0"
 authors = ["Dylan McKay <dylan.mckay@powershop.co.nz>"]
 license = "MIT"
 
-build = "build.rs"
-
 [dependencies]
 libc = ">= 0.2.11"
-mri-sys = ">= 0.1.0"
+mri-sys = ">= 0.1.1"
 
 [dev-dependencies]
 stainless = ">= 0.1.4"
