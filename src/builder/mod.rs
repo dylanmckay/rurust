@@ -80,7 +80,7 @@ impl ClassBuilder {
                 ffi::rb_define_method(
                     value.0,
                     util::c_string(&method.name).as_ptr(),
-                    std::mem::transmute(method.func),
+                    method.func as *const _,
                     method.arg_count as libc::c_int,
                 );
             }

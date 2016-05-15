@@ -3,6 +3,11 @@ extern crate mri_sys as ffi;
 
 use std::io::Write;
 
+#[no_mangle]
+extern fn do_rust_thing() {
+    println!("from rust");
+}
+
 fn main() {
     let mut vm = if let Ok(vm) = rurust::VM::new() {
         vm
@@ -23,10 +28,9 @@ fn main() {
             break;
         }
 
-        println!("nil is {:x}", ffi::Qnil.0);
 
         let a = vm.class("Abc").
-            method("thing", 0 as *const u8, 0).
+            method("thing", do_rust_thing as *const _, 0).
             build();
 
         match vm.eval(&line) {
