@@ -1,5 +1,6 @@
 use ffi;
 use util;
+use libc;
 use std::fmt;
 
 pub struct Value(pub ffi::VALUE);
@@ -16,6 +17,10 @@ impl Value
 
     pub fn string(s: &str) -> Self {
         Self::from(unsafe { ffi::rb_id2str(Self::intern(s)) })
+    }
+
+    pub fn float(v: f64) -> Self {
+        Self::from(unsafe { ffi::rb_float_new(v as libc::c_double) })
     }
 
     pub fn to_sym(&self) -> Value {
