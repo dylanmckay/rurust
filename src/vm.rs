@@ -1,5 +1,5 @@
-use ffi;
 use util;
+use ffi;
 
 use std;
 use libc;
