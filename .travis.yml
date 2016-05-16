@@ -1,0 +1,19 @@
+language: rust
+dist: trusty
+
+# this shouldn't be required, but travis doesn't seem to
+# pick up the libruby.a without it.
+sudo: required
+
+rust:
+  - stable
+  - beta
+  - nightly
+
+addons:
+  apt:
+    packages:
+      - ruby-full
+env:
+  - RUBY_LIB=ruby-1.9.1-static
+
