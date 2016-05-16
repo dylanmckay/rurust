@@ -12,7 +12,7 @@ keywords = ["ruby", "repl", "interpreter", "plugin"]
 
 [dependencies]
 libc = ">= 0.2.11"
-mri-sys = ">= 0.1.2"
+mri-sys = ">= 0.1.4"
 
 [dev-dependencies]
 stainless = ">= 0.1.4"

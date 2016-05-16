@@ -4,7 +4,7 @@ extern crate mri_sys as ffi;
 use std::io::Write;
 
 #[no_mangle]
-extern fn do_rust_thing() {
+pub extern fn do_rust_thing() {
     println!("from rust");
 }
 
@@ -29,7 +29,7 @@ fn main() {
         }
 
 
-        let a = vm.class("Abc").
+        vm.class("Abc").
             method("thing", do_rust_thing as *const _, 0).
             build();
 
