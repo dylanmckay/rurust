@@ -4,8 +4,8 @@ extern crate mri_sys as ffi;
 use std::io::Write;
 
 #[no_mangle]
-pub extern fn do_rust_thing() {
-    println!("from rust");
+pub extern fn thing(self_obj: rurust::Value, num: rurust::Value) {
+    println!("from rust: {:?} with {}", self_obj, num);
 }
 
 fn main() {
@@ -30,7 +30,7 @@ fn main() {
 
 
         vm.class("Abc").
-            method("thing", do_rust_thing as *const _, 0).
+            method("thing", thing as *const _, 1).
             build();
 
         match vm.eval(&line) {
