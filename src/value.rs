@@ -24,6 +24,11 @@ impl Value
         Self::from(unsafe { ffi::rb_id2str(Self::intern(s)) })
     }
 
+    /// Creates a new `Fixnum`.
+    pub fn fixnum(v: i64) -> Self {
+        Self::from(ffi::INT2FIX(v as _))
+    }
+
     /// Creates a new `Float`.
     pub fn float(v: f64) -> Self {
         Self::from(unsafe { ffi::rb_float_new(v as libc::c_double) })
@@ -32,6 +37,21 @@ impl Value
     /// Converts the value into a symbol.
     pub fn to_sym(&self) -> Value {
         Self::from(unsafe { ffi::rb_to_symbol(self.0) })
+    }
+
+    /// Converts the value to a 64-bit signed integer.
+    pub fn to_i64(&self) -> i64 {
+        unsafe { ffi::rb_num2long(self.0) as i64 }
+    }
+
+    /// Converts the value to a 64-bit unsigned integer.
+    pub fn to_u64(&self) -> u64 {
+        unsafe { ffi::rb_num2ulong(self.0) as u64 }
+    }
+
+    /// Converts the value into a 64-bit float.
+    pub fn to_f64(&self) -> f64 {
+        unsafe { ffi::rb_num2dbl(self.0) as f64 }
     }
 
     /// Gets the class.

@@ -81,6 +81,17 @@ impl VM
         unsafe { ffi::rb_define_global_const(util::c_string(name).as_ptr(), value.0) }
     }
 
+    /// Defines a global function.
+    pub fn define_global_function(&self, name: &str, f: *mut extern fn() -> Value, arg_count: u8) -> Value {
+        unsafe {
+            Value::from(ffi::rb_define_global_function(
+                util::c_string(name).as_ptr(),
+                f as *mut _,
+                arg_count as libc::c_int,
+            ))
+        }
+    }
+
     /// Gets the current receiver (can be `nil`).
     pub fn current_receiver(&self) -> Value {
         unsafe { Value::from(ffi::rb_current_receiver()) }
