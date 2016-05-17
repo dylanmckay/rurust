@@ -1,7 +1,7 @@
 # rurust
 
 [![Build Status](https://travis-ci.org/dylanmckay/rurust.svg?branch=master)](https://travis-ci.org/dylanmckay/rurust)
-[![Crates.io](https://img.shields.io/crates/v/rurust.svg)]()
+[![Crates.io](https://img.shields.io/crates/v/rurust.svg)](https://crates.io/crates/rurust)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
 A Rust wrapper over the MRI Ruby VM.
