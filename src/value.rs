@@ -1,3 +1,4 @@
+use builder;
 use ffi;
 use util;
 use libc;
@@ -57,6 +58,18 @@ impl Value
     /// Gets the class.
     pub fn class(&self) -> Value {
         Self::from(unsafe { ffi::rb_class_of(self.0) })
+    }
+
+    /// Creates a nested class.
+    pub fn nested_class<S>(self, name: S) -> builder::Class
+        where S: Into<String> {
+        builder::Class::new_under(name, Some(self))
+    }
+
+    /// Creates a nested module.
+    pub fn nested_module<S>(self, name: S) -> builder::Module
+        where S: Into<String> {
+        builder::Module::new_under(name, Some(self))
     }
 
     /// The value of `Object#to_s`.

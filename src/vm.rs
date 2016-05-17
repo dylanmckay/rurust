@@ -66,6 +66,12 @@ impl VM
         builder::Class::new(name)
     }
 
+    /// Creates a new module.
+    pub fn module<S>(&mut self, name: S) -> builder::Module
+        where S: Into<String> {
+        builder::Module::new(name)
+    }
+
     /// Sets the value of a global variable or creates a new one.
     pub fn set_global(&self, name: &str, value: Value) -> Value {
         Value::from(unsafe { ffi::rb_gv_set(util::c_string(name).as_ptr(), value.0) })

@@ -30,8 +30,15 @@ fn main() {
         }
 
 
-        vm.class("Abc").
+        let abc = vm.class("Abc").
             method("thing", thing as *mut _, 1).
+            build();
+
+        abc.nested_class("Def").build().nested_class("Xyz").build();
+        abc.nested_module("Helper").build();
+
+        vm.module("Rurust").
+            function("hello_world", thing as *mut _, 0).
             build();
 
         match vm.eval(&line) {

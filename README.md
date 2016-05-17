@@ -6,6 +6,8 @@
 
 A Rust wrapper over the MRI Ruby VM.
 
+[Documentation](https://crates.fyi/crates/rurust/0.1.1)
+
 Allows you to create a Ruby VM, `eval` code, plug classes,
 define modules, and insert C functions into the environment.
 

@@ -1,12 +1,14 @@
 [package]
 name = "rurust"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Dylan McKay <dylan.mckay@powershop.co.nz>"]
 license = "MIT"
 
 description = "High level Ruby VM bindings"
 
 repository = "https://github.com/dylanmckay/rurust"
+documentation = "https://crates.fyi/crates/rurust/0.1.1"
+
 readme = "README.md"
 keywords = ["ruby", "repl", "interpreter", "plugin"]
 

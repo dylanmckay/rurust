@@ -28,12 +28,13 @@ pub struct Class
 {
     name: String,
     base_class: Value,
-    under: Option<Value>,
+    parent: Option<Value>,
 
     methods: Vec<Method>,
     singleton_methods: Vec<Method>,
 
     included_modules: Vec<Value>,
+    prepended_modules: Vec<Value>,
     constants: Vec<Constant>,
     aliases: Vec<Alias>,
     accessors: Vec<Accessor>,
@@ -44,16 +45,17 @@ impl Class {
         Self::new_under(name, None)
     }
 
-    pub fn new_under<S>(name: S, under: Option<Value>) -> Self where S: Into<String> {
+    pub fn new_under<S>(name: S, parent: Option<Value>) -> Self where S: Into<String> {
         Class {
             name: name.into(),
             base_class: ffi::rb_cObject.into(),
-            under: under,
+            parent: parent,
 
             methods: Vec::new(),
             singleton_methods: Vec::new(),
 
             included_modules: Vec::new(),
+            prepended_modules: Vec::new(),
             constants: Vec::new(),
             aliases: Vec::new(),
             accessors: Vec::new(),
@@ -63,7 +65,7 @@ impl Class {
     /// Creates the class under a value.
     /// This may be a class, a module, etc.
     pub fn under(mut self, parent: Value) -> Self {
-        self.under = Some(parent);
+        self.parent = Some(parent);
         self
     }
 
@@ -76,6 +78,12 @@ impl Class {
     /// Includes a module.
     pub fn include(mut self, module: Value) -> Self {
         self.included_modules.push(module);
+        self
+    }
+
+    /// Prepends a module.
+    pub fn prepend(mut self, module: Value) -> Self {
+        self.prepended_modules.push(module);
         self
     }
 
@@ -141,7 +149,7 @@ impl Class {
         let name = util::c_string(&self.name);
 
         let value = Value::from(unsafe {
-            if let Some(parent) = self.under {
+            if let Some(parent) = self.parent {
                 ffi::rb_define_class_under(parent.0, name.as_ptr(), self.base_class.0)
             } else {
                 ffi::rb_define_class(name.as_ptr(), self.base_class.0)
@@ -158,6 +166,10 @@ impl Class {
 
         for module in self.included_modules {
             unsafe { ffi::rb_include_module(value.0, module.0) };
+        }
+
+        for module in self.prepended_modules {
+            unsafe { ffi::rb_prepend_module(value.0, module.0) };
         }
 
         for constant in self.constants {
