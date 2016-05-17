@@ -61,9 +61,9 @@ impl VM
     }
 
     /// Creates a new class.
-    pub fn class<S>(&mut self, name: S) -> builder::ClassBuilder
+    pub fn class<S>(&mut self, name: S) -> builder::Class
         where S: Into<String> {
-        builder::ClassBuilder::new(name)
+        builder::Class::new(name)
     }
 
     /// Sets the value of a global variable or creates a new one.
