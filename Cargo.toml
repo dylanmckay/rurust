@@ -1,6 +1,6 @@
 [package]
 name = "rurust"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Dylan McKay <dylan.mckay@powershop.co.nz>"]
 license = "MIT"
 
@@ -14,7 +14,7 @@ keywords = ["ruby", "repl", "interpreter", "plugin"]
 
 [dependencies]
 libc = ">= 0.2.11"
-mri-sys = ">= 0.1.7"
+mri-sys = ">= 0.1.8"
 
 [dev-dependencies]
 stainless = ">= 0.1.4"
