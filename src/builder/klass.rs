@@ -7,7 +7,7 @@ use libc;
 struct Method {
     name: String,
     func: *mut extern fn() -> Value,
-    arg_count: u8,
+    arg_count: i8,
 }
 
 struct Constant(String, Value);
@@ -88,7 +88,7 @@ impl Class {
     }
 
     /// Defines a method.
-    pub fn method<S>(mut self, name: S, func_addr: *mut extern fn() -> Value, arg_count: u8) -> Self
+    pub fn method<S>(mut self, name: S, func_addr: *mut extern fn() -> Value, arg_count: i8) -> Self
         where S: Into<String> {
         self.methods.push(Method {
             name: name.into(),
@@ -99,7 +99,7 @@ impl Class {
     }
 
     /// Defines a singleton method.
-    pub fn singleton_method<S>(mut self, name: S, func_addr: *mut extern fn() -> Value, arg_count: u8) -> Self
+    pub fn singleton_method<S>(mut self, name: S, func_addr: *mut extern fn() -> Value, arg_count: i8) -> Self
         where S: Into<String> {
         self.singleton_methods.push(Method {
             name: name.into(),

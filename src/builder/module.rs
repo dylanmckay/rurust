@@ -7,7 +7,7 @@ use libc;
 struct Function {
     name: String,
     func: *mut extern fn() -> Value,
-    arg_count: u8,
+    arg_count: i8,
 }
 
 struct Constant(String, Value);
@@ -66,7 +66,7 @@ impl Module
     }
 
     /// Defines a function.
-    pub fn function<S>(mut self, name: S, func_addr: *mut extern fn() -> Value, arg_count: u8) -> Self
+    pub fn function<S>(mut self, name: S, func_addr: *mut extern fn() -> Value, arg_count: i8) -> Self
         where S: Into<String> {
         self.functions.push(Function {
             name: name.into(),
