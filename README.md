@@ -11,6 +11,8 @@ A Rust wrapper over the MRI Ruby VM.
 Allows you to create a Ruby VM, `eval` code, plug classes,
 define modules, and insert C functions into the environment.
 
+For a more high level library, take a look at [plugger](https://github.com/dylanmckay/plugger-ruby).
+
 ## Examples
 
 ### A simple REPL

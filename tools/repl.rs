@@ -32,6 +32,7 @@ fn main() {
 
         let abc = vm.class("Abc").
             method("thing", thing as *mut _, 1).
+            singleton_method("hello", thing as *mut _, 1).
             build();
 
         abc.nested_class("Def").build().nested_class("Xyz").build();
