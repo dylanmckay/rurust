@@ -2,7 +2,7 @@ use builder;
 use ffi;
 use util;
 use libc;
-use std::fmt;
+use std::{cmp, fmt};
 
 #[derive(Copy,Clone)]
 /// A Ruby value.
@@ -13,6 +13,21 @@ impl Value
     /// Gets `nil`.
     pub fn nil() -> Self {
         Self::from(ffi::Qnil)
+    }
+
+    /// Gets a boolean value.
+    pub fn boolean(b: bool) -> Self {
+        if b { Value::boolean_true() } else { Value::boolean_false() }
+    }
+
+    /// Gets the boolean `true` value.
+    pub fn boolean_true() -> Self {
+        Self::from(ffi::Qtrue)
+    }
+
+    /// Gets the boolean `false` value.
+    pub fn boolean_false() -> Self {
+        Self::from(ffi::Qfalse)
     }
 
     /// Creates a new symbol.
@@ -87,12 +102,39 @@ impl Value
         unsafe { util::string(ffi::rb_obj_classname(self.0)) }
     }
 
-    pub fn is_nil(&self)    -> bool { self.0 == ffi::Qnil }
+    /// Checks if the value is `nil`.
+    pub fn is_nil(&self)   -> bool { self.0 == ffi::Qnil }
+    /// Checks if the value is `true`.
+    pub fn is_true(&self)  -> bool { self.0 == ffi::Qtrue }
+    /// Checks if the value is `false.`
+    pub fn is_false(&self) -> bool { self.0 == ffi::Qfalse }
+
+    /// Checks if the value is a `String` type.
     pub fn is_string(&self) -> bool { ffi::TYPE_P(self.0, ffi::T_STRING) }
+    /// Checks if the value is a regex.
+    pub fn is_regex(&self) -> bool { ffi::TYPE_P(self.0, ffi::T_REGEXP) }
+    /// Checks if the value is an `Integer` type.
     pub fn is_integer(&self) -> bool { ffi::TYPE_P(self.0, ffi::T_FIXNUM) }
+    /// Checks if the value is a complex number.
+    pub fn is_complex_number(&self) -> bool { ffi::TYPE_P(self.0, ffi::T_COMPLEX) }
+    /// Checks if the value is a rational number.
+    pub fn is_rational(&self) -> bool { ffi::TYPE_P(self.0, ffi::T_RATIONAL) }
+    /// Checks if the value is a symbol.
     pub fn is_symbol(&self) -> bool { ffi::TYPE_P(self.0, ffi::T_SYMBOL) }
+    /// Checks if the value is a float.
     pub fn is_float(&self)  -> bool { ffi::TYPE_P(self.0, ffi::T_FLOAT) }
+    /// Checks if the value is an array.
+    pub fn is_array(&self) -> bool { ffi::TYPE_P(self.0, ffi::T_ARRAY) }
+    /// Checks if the value is a hash.
+    pub fn is_hash(&self) -> bool { ffi::TYPE_P(self.0, ffi::T_HASH) }
+    /// Checks if the value is an object.
     pub fn is_object(&self) -> bool { ffi::TYPE_P(self.0, ffi::T_OBJECT) }
+    /// Checks if the value is a class.
+    pub fn is_class(&self)  -> bool { ffi::TYPE_P(self.0, ffi::T_CLASS) }
+    /// Checks if the value is a `Struct`.
+    pub fn is_struct(&self) -> bool { ffi::TYPE_P(self.0, ffi::T_STRUCT) }
+    /// Checks if the value is a module.
+    pub fn is_module(&self) -> bool { ffi::TYPE_P(self.0, ffi::T_MODULE) }
 
     /// Ruby's version of '=='
     pub fn is_equal_to(&self, other: Self) -> Self {
@@ -143,6 +185,15 @@ impl Value
     }
 }
 
+impl cmp::PartialEq for Value
+{
+    fn eq(&self, rhs: &Value) -> bool {
+        self.is_equal_to(*rhs).is_true()
+    }
+}
+
+impl cmp::Eq for Value { }
+
 impl fmt::Display for Value
 {
     fn fmt(&self, fmt: &mut fmt::Formatter) -> fmt::Result {
@@ -161,6 +212,25 @@ impl From<ffi::VALUE> for Value
 {
     fn from(value: ffi::VALUE) -> Value {
         Value(value)
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use super::Value;
+
+    #[test]
+    fn can_create_booleans() {
+        assert!(Value::boolean_true().is_true());
+        assert!(Value::boolean_false().is_false());
+        assert!(Value::boolean(true).is_true());
+        assert!(Value::boolean(false).is_false());
+    }
+
+    #[test]
+    fn can_create_integers() {
+        assert_eq!(50, Value::integer(50).to_u64());
+        assert_eq!(0xdeadbeef, Value::integer(0xdeadbeef).to_u64());
     }
 }
 
