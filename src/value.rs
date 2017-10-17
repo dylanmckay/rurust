@@ -25,8 +25,8 @@ impl Value
         Self::from(unsafe { ffi::rb_id2str(Self::intern(s)) })
     }
 
-    /// Creates a new `Fixnum`.
-    pub fn fixnum(v: i64) -> Self {
+    /// Creates a new `Integer`.
+    pub fn integer(v: i64) -> Self {
         Self::from(ffi::INT2FIX(v as _))
     }
 
@@ -89,7 +89,7 @@ impl Value
 
     pub fn is_nil(&self)    -> bool { self.0 == ffi::Qnil }
     pub fn is_string(&self) -> bool { ffi::TYPE_P(self.0, ffi::T_STRING) }
-    pub fn is_fixnum(&self) -> bool { ffi::TYPE_P(self.0, ffi::T_FIXNUM) }
+    pub fn is_integer(&self) -> bool { ffi::TYPE_P(self.0, ffi::T_FIXNUM) }
     pub fn is_symbol(&self) -> bool { ffi::TYPE_P(self.0, ffi::T_SYMBOL) }
     pub fn is_float(&self)  -> bool { ffi::TYPE_P(self.0, ffi::T_FLOAT) }
     pub fn is_object(&self) -> bool { ffi::TYPE_P(self.0, ffi::T_OBJECT) }

@@ -14,7 +14,7 @@ keywords = ["ruby", "repl", "interpreter", "plugin", "plugger", "vm"]
 
 [dependencies]
 libc = ">= 0.2.11"
-mri-sys = ">= 0.1.9"
+mri-sys = "0.2"
 
 [dev-dependencies]
 stainless = ">= 0.1.4"
