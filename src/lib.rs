@@ -1,6 +1,3 @@
-#![cfg_attr(test, feature(plugin))]
-#![cfg_attr(test, plugin(stainless))]
-
 /// The Ruby virtual machine.
 pub mod vm;
 /// Ruby value stuff.

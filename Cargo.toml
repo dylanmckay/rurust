@@ -16,9 +16,6 @@ keywords = ["ruby", "repl", "interpreter", "plugin", "plugger", "vm"]
 libc = ">= 0.2.11"
 mri-sys = "0.2"
 
-[dev-dependencies]
-stainless = ">= 0.1.4"
-
 [lib]
 name = "rurust"
 path = "src/lib.rs"

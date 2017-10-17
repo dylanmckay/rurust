@@ -178,10 +178,13 @@ impl std::ops::Drop for VM
 }
 
 #[cfg(test)]
-describe! vm {
-    before_each { let mut vm = VM::new().unwrap(); }
+mod test {
+    use super::*;
 
-    it "can eval a simple assignment" {
-        vm.eval("a = 1");
+    #[test]
+    fn can_eval_simple_assignment() {
+        let mut vm = VM::new().unwrap();
+        vm.eval("a = 1").unwrap();
     }
 }
+
