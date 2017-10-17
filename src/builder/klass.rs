@@ -48,7 +48,7 @@ impl Class {
     pub fn new_under<S>(name: S, parent: Option<Value>) -> Self where S: Into<String> {
         Class {
             name: name.into(),
-            base_class: ffi::rb_cObject.into(),
+            base_class: unsafe { ffi::rb_cObject.into() },
             parent: parent,
 
             methods: Vec::new(),
