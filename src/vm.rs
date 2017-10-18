@@ -8,11 +8,17 @@ use libc;
 
 use Value;
 
+use std::sync::Mutex;
+
 /// A Ruby virtual machine.
 pub struct VM;
 
 /// We only want to be able to have one `VM` at a time.
 static mut VM_EXISTS: bool = false;
+
+lazy_static! {
+    static ref ACTIVE_VM: Mutex<VM> = Mutex::new(VM::new().expect("failed to create Ruby VM"));
+}
 
 // TODO:
 // Implement hooked variables (rb_define_hooked_variable)
@@ -30,8 +36,13 @@ pub enum ErrorKind
 
 impl VM
 {
+    /// Gets the active VM.
+    pub fn get() -> &'static Mutex<VM> {
+        &ACTIVE_VM
+    }
+
     /// Creates a new Ruby VM.
-    pub fn new() -> Result<Self, ErrorKind> {
+    fn new() -> Result<Self, ErrorKind> {
         unsafe {
             if VM_EXISTS {
                 Err(ErrorKind::VM("can only have one Ruby VM at a time".to_owned()))

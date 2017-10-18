@@ -18,4 +18,6 @@ pub use self::value::Value;
 
 extern crate libc;
 extern crate mri_sys as ffi;
+#[macro_use]
+extern crate lazy_static;
 

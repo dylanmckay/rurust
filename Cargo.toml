@@ -15,6 +15,7 @@ keywords = ["ruby", "repl", "interpreter", "plugin", "vm"]
 [dependencies]
 libc = ">= 0.2.11"
 mri-sys = "0.2"
+lazy_static = "0.2"
 
 [lib]
 name = "rurust"

@@ -10,12 +10,7 @@ pub extern fn thing(self_obj: rurust::Value, num: rurust::Value) -> rurust::Valu
 }
 
 fn main() {
-    let mut vm = if let Ok(vm) = rurust::VM::new() {
-        vm
-    } else {
-        println!("could not create VM");
-        return;
-    };
+    let mut vm = rurust::VM::get().lock().unwrap();
 
     loop {
         let mut line = String::new();
