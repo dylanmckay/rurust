@@ -182,7 +182,7 @@ impl fmt::Debug for ErrorKind {
     fn fmt(&self, fmt: &mut fmt::Formatter) -> fmt::Result {
         match *self {
             ErrorKind::VM(ref msg) => write!(fmt, "virtual machine error: {}", msg),
-            ErrorKind::Exception(e) => write!(fmt, "Ruby exception: {}: {:?}", e.class_name(), e),
+            ErrorKind::Exception(e) => write!(fmt, "{}: {:?}", e.class_name(), e),
         }
     }
 }
