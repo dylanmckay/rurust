@@ -3,6 +3,7 @@ use builder;
 use util;
 
 use std;
+use std::fmt;
 use libc;
 
 use Value;
@@ -17,7 +18,7 @@ static mut VM_EXISTS: bool = false;
 // Implement hooked variables (rb_define_hooked_variable)
 //   Allows a callback to get/set variable value
 
-#[derive(Debug)]
+#[derive(PartialEq)]
 /// A Ruby error
 pub enum ErrorKind
 {
@@ -177,14 +178,12 @@ impl std::ops::Drop for VM
     }
 }
 
-#[cfg(test)]
-mod test {
-    use super::*;
-
-    #[test]
-    fn can_eval_simple_assignment() {
-        let mut vm = VM::new().unwrap();
-        vm.eval("a = 1").unwrap();
+impl fmt::Debug for ErrorKind {
+    fn fmt(&self, fmt: &mut fmt::Formatter) -> fmt::Result {
+        match *self {
+            ErrorKind::VM(ref msg) => write!(fmt, "virtual machine error: {}", msg),
+            ErrorKind::Exception(e) => write!(fmt, "Ruby exception: {}: {:?}", e.class_name(), e),
+        }
     }
 }
 
