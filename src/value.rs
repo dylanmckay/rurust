@@ -36,7 +36,7 @@ impl Value
     }
 
     /// Creates a new String.
-    pub fn string<S>(s: S) -> Self where S: AsRef<String> {
+    pub fn string<S>(s: S) -> Self where S: AsRef<str> {
         Self::from(unsafe { ffi::rb_id2str(Self::intern(s.as_ref())) })
     }
 
