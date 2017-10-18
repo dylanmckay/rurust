@@ -1,6 +1,6 @@
 [package]
 name = "rurust"
-version = "0.1.9"
+version = "0.1.10"
 authors = ["Dylan McKay <dylan.mckay@powershop.co.nz>"]
 license = "MIT"
 
