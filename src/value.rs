@@ -31,13 +31,13 @@ impl Value
     }
 
     /// Creates a new symbol.
-    pub fn symbol(name: &str) -> Self {
-        Self::from(unsafe { ffi::rb_id2sym(Self::intern(name)) })
+    pub fn symbol<S>(name: S) -> Self where S: AsRef<str> {
+        Self::from(unsafe { ffi::rb_id2sym(Self::intern(name.as_ref())) })
     }
 
     /// Creates a new String.
-    pub fn string(s: &str) -> Self {
-        Self::from(unsafe { ffi::rb_id2str(Self::intern(s)) })
+    pub fn string<S>(s: S) -> Self where S: AsRef<String> {
+        Self::from(unsafe { ffi::rb_id2str(Self::intern(s.as_ref())) })
     }
 
     /// Creates a new `Integer`.
