@@ -41,13 +41,14 @@ impl Value
     }
 
     /// Creates a new `Integer`.
-    pub fn integer(v: i64) -> Self {
-        Self::from(ffi::INT2FIX(v as _))
+    pub fn integer<I>(v: I) -> Self where I: Into<i64> {
+        // FIXME: this can overflow and panic
+        Self::from(ffi::INT2FIX(v.into() as usize))
     }
 
     /// Creates a new `Float`.
-    pub fn float(v: f64) -> Self {
-        Self::from(unsafe { ffi::rb_float_new(v as libc::c_double) })
+    pub fn float<F>(v: F) -> Self where F: Into<f64> {
+        Self::from(unsafe { ffi::rb_float_new(v.into()) })
     }
 
     /// Converts the value into a symbol.
