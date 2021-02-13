@@ -3,6 +3,7 @@ name = "rurust"
 version = "0.2.0"
 authors = ["Dylan McKay <me@dylanmckay.io>"]
 license = "MIT"
+edition = "2018"
 
 description = "High level Ruby VM bindings"
 

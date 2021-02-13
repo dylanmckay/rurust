@@ -1,8 +1,4 @@
-use Value;
-
-use util;
-use ffi;
-use libc;
+use crate::{ffi, libc, util, Value};
 
 struct Function {
     name: String,

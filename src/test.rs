@@ -1,4 +1,4 @@
-use {classes,ErrorKind, VM};
+use crate::{classes, ErrorKind, VM};
 
 // We cannot have more than two VMs at a time, and so we have a single
 // test that calls the other tests.

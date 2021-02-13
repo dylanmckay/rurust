@@ -1,7 +1,6 @@
 //! Accesses for standard Ruby classes.
 
-use Value;
-use ffi;
+use crate::{ffi, Value};
 
 // Ruby classes do not follow the same conventions.
 
