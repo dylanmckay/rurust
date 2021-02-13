@@ -42,7 +42,7 @@ impl VM
     }
 
     /// Creates a new Ruby VM.
-    fn new() -> Result<Self, ErrorKind> {
+    pub fn new() -> Result<Self, ErrorKind> {
         unsafe {
             if VM_EXISTS {
                 Err(ErrorKind::VM("can only have one Ruby VM at a time".to_owned()))

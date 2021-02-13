@@ -4,8 +4,9 @@ use util;
 use libc;
 use std::{cmp, fmt};
 
-#[derive(Copy,Clone)]
 /// A Ruby value.
+#[derive(Copy,Clone)]
+#[repr(transparent)]
 pub struct Value(pub ffi::VALUE);
 
 impl Value
@@ -231,7 +232,7 @@ mod test {
     #[test]
     fn can_create_integers() {
         assert_eq!(50, Value::integer(50).to_u64());
-        assert_eq!(0xdeadbeef, Value::integer(0xdeadbeef).to_u64());
+        assert_eq!(0xdeadbe, Value::integer(0xdeadbe).to_u64());
     }
 }
 
